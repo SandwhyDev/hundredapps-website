@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 140" role="img" aria-labelledby="title">
+  <title id="title">Hundredapps</title>
+  <defs>
+    <linearGradient id="flow" x1="24" y1="14" x2="169" y2="122" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#05c9f8"/>
+      <stop offset="0.18" stop-color="#087cff"/>
+      <stop offset="0.36" stop-color="#7438ff"/>
+      <stop offset="0.57" stop-color="#1765ff"/>
+      <stop offset="0.75" stop-color="#8061ff"/>
+      <stop offset="1" stop-color="#08c4f8"/>
+    </linearGradient>
+    <radialGradient id="right-depth" cx="137" cy="67" r="35" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#061256" stop-opacity="0.65"/>
+      <stop offset="0.62" stop-color="#09185f" stop-opacity="0.27"/>
+      <stop offset="1" stop-color="#09185f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="left-depth" cx="54" cy="78" r="25" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#151364" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#151364" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="upper-light" cx="143" cy="34" r="34" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#aa87ff" stop-opacity="0.48"/>
+      <stop offset="1" stop-color="#aa87ff" stop-opacity="0"/>
+    </radialGradient>
+    <mask id="mark-area" maskUnits="userSpaceOnUse" x="0" y="0" width="180" height="140">
+      <path d="M39 27v65c0 12 7 19 17 19 7 0 13-4 19-11l51-59c6-7 12-10 18-10 9 0 15 7 15 17v56" fill="none" stroke="#fff" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+    </mask>
+    <filter id="soft-shadow" x="-20%" y="-25%" width="140%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#050f54" flood-opacity="0.65"/>
+    </filter>
+  </defs>
+  <path d="M39 27v65c0 12 7 19 17 19 7 0 13-4 19-11l51-59c6-7 12-10 18-10 9 0 15 7 15 17v56" fill="none" stroke="url(#flow)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" filter="url(#soft-shadow)"/>
+  <g mask="url(#mark-area)">
+    <circle cx="54" cy="78" r="25" fill="url(#left-depth)"/>
+    <circle cx="137" cy="67" r="35" fill="url(#right-depth)"/>
+    <circle cx="143" cy="34" r="34" fill="url(#upper-light)"/>
+  </g>
+</svg>
