@@ -77,3 +77,13 @@
 @media(max-width:760px){.story-stage{padding:105px 20px 90px}.story-topline{left:20px;right:20px;top:32px}.story-chapter{grid-template-columns:1fr;align-content:center;gap:0;min-height:700px}.story-copy h2{font-size:clamp(39px,10vw,58px)}.story-copy>p:not(.overline){font-size:14px;line-height:1.6}.story-visual{min-height:330px}.story-visual-seed:before{width:280px}.story-visual-seed:after{width:205px}.story-seed-ring{width:160px}.story-product{width:105px;height:135px;padding:12px;border-radius:16px}.story-product b{width:50px;height:50px;font-size:29px;border-radius:12px}.story-product small{font-size:7px}.story-visual-brand img{width:220px}.story-progress{left:20px;right:20px;bottom:35px}.story-scroll-hint{right:20px;bottom:47px}.has-scroll-story .story-chapter{padding:98px 20px 75px;grid-template-columns:1fr;align-content:center}.has-scroll-story .scroll-story{height:280svh}}
 @media(max-width:520px){.story-stage{min-height:700px}.story-visual{min-height:290px}.story-copy h2{font-size:clamp(38px,10vw,50px)}.story-copy .overline{margin-bottom:12px}.story-copy h2{margin-bottom:15px}.story-copy>p:not(.overline){margin-bottom:13px}.story-product-one{transform:translate(-60%,-44%) rotate(-16deg)}.story-product-two{transform:translate(65%,-37%) rotate(13deg)}.story-product-three{transform:translate(-40%,55%) rotate(9deg)}.story-product-four{transform:translate(70%,60%) rotate(-12deg)}}
 @media(prefers-reduced-motion:reduce){.story-stage{height:auto}.story-chapter{opacity:1;transform:none}.story-progress,.story-scroll-hint{display:none}}
+
+/* Language selection */
+.site-nav{margin-left:auto}
+.language-switch{display:inline-flex;align-items:center;gap:3px;flex:none;margin-left:22px;padding:4px;border:1px solid #35517e;border-radius:100px;background:#0a1833}
+.language-switch button{min-width:34px;border:0;border-radius:100px;padding:7px 8px;background:transparent;color:#8da9d2;font:700 10px var(--font-display);letter-spacing:.08em}
+.language-switch button[aria-pressed="true"]{background:#247cff;color:#fff;box-shadow:0 2px 12px #1478ff55}
+.language-switch button:focus-visible{outline-offset:3px}
+@media(max-width:1050px){.site-nav{gap:16px}.language-switch{margin-left:10px}}
+@media(max-width:760px){.site-header{gap:10px}.brand{min-width:0;margin-right:auto}.site-nav{margin-left:0}.language-switch{margin-left:0}.menu-toggle{flex:none}}
+@media(max-width:360px){.brand-type strong{font-size:19px}.brand-type>span{font-size:12px}.language-switch button{min-width:30px;padding:6px}}

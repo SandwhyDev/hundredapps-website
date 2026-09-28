@@ -13,6 +13,84 @@ const projects = [
   { name: "Trumecs", subtitle: "", category: "app", type: "Aplikasi", platforms: ["App Store"], icon: "trumecs", mark: "T" },
 ];
 
+const english = {
+  skipLink: "Skip to content",
+  brandTop: "Hundredapps, back to top",
+  navLabel: "Main navigation",
+  navAbout: "About",
+  navWork: "Work",
+  navApproach: "Approach",
+  navContact: 'Contact us <span aria-hidden="true">↗</span>',
+  languageLabel: "Choose language",
+  heroDescription: "We build apps and games that turn simple ideas into meaningful experiences. One home, many possibilities.",
+  heroAboutLink: 'Get to know Hundredapps <span aria-hidden="true">↓</span>',
+  introLabel: "01 / ABOUT US",
+  introOverline: "FROM ONE IDEA TO MANY EXPERIENCES",
+  introTitle: "We believe small ideas can make <em>a big impact.</em>",
+  introDescription: "Hundredapps is a home for digital products that keep growing. Each app and game is made to help, entertain, and bring value to everyday life.",
+  statsLabel: "Portfolio overview",
+  statsProducts: "products in our portfolio",
+  statsPlatforms: "mobile platforms",
+  storyLabel: "From an idea to many apps",
+  storyOneLabel: "01 / THE START",
+  storyOneTitle: "It all starts with <em>one idea.</em>",
+  storyOneDescription: "A small idea can grow far when it has room to move.",
+  storyTwoLabel: "02 / IN MOTION",
+  storyTwoTitle: "Ideas become <em>experiences.</em>",
+  storyTwoDescription: "Different apps and games, each with its own purpose and character.",
+  storyThreeLabel: "03 / ONE HOME",
+  storyThreeTitle: "Many creations. <em>One home.</em>",
+  storyThreeDescription: "Hundredapps brings these ideas together and keeps opening up new possibilities.",
+  portfolioLabel: "02 / PORTFOLIO",
+  portfolioOverline: "MADE FOR DIFFERENT MOMENTS",
+  portfolioTitle: "One ecosystem.<br /><em>Many stories.</em>",
+  portfolioDescription: "From productivity to play, every product has its own purpose and personality.",
+  filterLabel: "Filter products",
+  filterAll: "All <span>12</span>",
+  filterApps: "Apps",
+  filterGames: "Games",
+  approachLabel: "03 / OUR APPROACH",
+  approachTitle: "It starts with curiosity. <em>It grows through making.</em>",
+  approachOneTitle: "Find the opportunity",
+  approachOneDescription: "We start with everyday needs and look for ways technology can make them easier to meet.",
+  approachTwoTitle: "Build with focus",
+  approachTwoDescription: "Each product is shaped to feel clear, enjoyable, and easy to use.",
+  approachThreeTitle: "Keep evolving",
+  approachThreeDescription: "Good ideas always leave room to learn, improve, and grow.",
+  contactLabel: "04 / LET'S CONNECT",
+  contactOverline: "HAVE AN IDEA TO BRING TO LIFE?",
+  contactDescription: "We're open to the next idea and collaboration.",
+  contactPending: 'Official contact details coming soon <span aria-hidden="true">↗</span>',
+  footerAbout: "About",
+  footerWork: "Work",
+  footerContact: "Contact",
+  metaDescription: "Hundredapps is home to a growing collection of mobile apps and games. Explore small ideas that become meaningful digital experiences.",
+  projectTypes: {
+    Produktivitas: "Productivity",
+    Keuangan: "Finance",
+    Game: "Game",
+    Bisnis: "Business",
+    Aplikasi: "App",
+    Belanja: "Shopping",
+    Lifestyle: "Lifestyle",
+  },
+};
+
+const languageButtons = [...document.querySelectorAll(".language-switch button")];
+const localizedText = [...document.querySelectorAll("[data-i18n]")].map((element) => ({ element, original: element.textContent }));
+const localizedHtml = [...document.querySelectorAll("[data-i18n-html]")].map((element) => ({ element, original: element.innerHTML }));
+const localizedAria = [...document.querySelectorAll("[data-i18n-aria]")].map((element) => ({ element, original: element.getAttribute("aria-label") }));
+const descriptionMeta = document.querySelector('meta[name="description"]');
+const originalDescription = descriptionMeta.content;
+let currentLanguage = "id";
+try {
+  if (localStorage.getItem("hundredapps-language") === "en") currentLanguage = "en";
+} catch { /* Storage may be unavailable in private browsing. */ }
+
+function projectTypeLabel(type) {
+  return currentLanguage === "en" ? english.projectTypes[type] || type : type;
+}
+
 const grid = document.querySelector("#project-grid");
 const filters = [...document.querySelectorAll(".filter-button")];
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -30,7 +108,7 @@ function projectCard(project, index) {
       <span class="visual-caption">${project.category === "game" ? "PLAY MORE" : "MAKE IT SIMPLE"}</span>
     </div>
     <div class="project-info">
-      <div><span class="project-type">${project.type}</span><h3>${project.name}</h3>${project.subtitle ? `<p>${project.subtitle}</p>` : ""}</div>
+      <div><span class="project-type">${projectTypeLabel(project.type)}</span><h3>${project.name}</h3>${project.subtitle ? `<p>${project.subtitle}</p>` : ""}</div>
     </div>
     <div class="project-platforms">${project.platforms.map((platform) => `<span>${platform}</span>`).join("")}</div>
   `;
@@ -68,18 +146,45 @@ filters.forEach((button) => {
 
 const menuToggle = document.querySelector(".menu-toggle");
 const nav = document.querySelector(".site-nav");
+function menuLabel(open) {
+  return currentLanguage === "en" ? (open ? "Close menu" : "Open menu") : (open ? "Tutup menu" : "Buka menu");
+}
+
+function applyLanguage(language) {
+  currentLanguage = language;
+  document.documentElement.lang = language;
+  localizedText.forEach(({ element, original }) => {
+    element.textContent = language === "en" ? english[element.dataset.i18n] : original;
+  });
+  localizedHtml.forEach(({ element, original }) => {
+    element.innerHTML = language === "en" ? english[element.dataset.i18nHtml] : original;
+  });
+  localizedAria.forEach(({ element, original }) => {
+    element.setAttribute("aria-label", language === "en" ? english[element.dataset.i18nAria] : original);
+  });
+  [...grid.children].forEach((card, index) => {
+    card.querySelector(".project-type").textContent = projectTypeLabel(projects[index].type);
+  });
+  descriptionMeta.content = language === "en" ? english.metaDescription : originalDescription;
+  menuToggle.setAttribute("aria-label", menuLabel(menuToggle.getAttribute("aria-expanded") === "true"));
+  languageButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.lang === language)));
+  try { localStorage.setItem("hundredapps-language", language); } catch { /* Keep the selection for this page only. */ }
+}
+
+languageButtons.forEach((button) => button.addEventListener("click", () => applyLanguage(button.dataset.lang)));
 menuToggle.addEventListener("click", () => {
   const open = menuToggle.getAttribute("aria-expanded") !== "true";
   menuToggle.setAttribute("aria-expanded", String(open));
-  menuToggle.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+  menuToggle.setAttribute("aria-label", menuLabel(open));
   nav.classList.toggle("is-open", open);
 });
 nav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
   menuToggle.setAttribute("aria-expanded", "false");
-  menuToggle.setAttribute("aria-label", "Buka menu");
+  menuToggle.setAttribute("aria-label", menuLabel(false));
   nav.classList.remove("is-open");
 }));
 
+applyLanguage(currentLanguage);
 document.querySelector("#year").textContent = new Date().getFullYear();
 
 if (!reduceMotion.matches && window.anime?.animate) {

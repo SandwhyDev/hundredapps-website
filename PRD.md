@@ -23,6 +23,7 @@ Website satu halaman untuk memperkenalkan Hundredapps sebagai naungan berbagai a
 4. **Portofolio** berisi 12 produk unik yang disimpulkan dari 16 listing pada referensi. Setiap kartu menunjukkan nama, jenis umum, dan platform. Filter Semua, Aplikasi, dan Game bekerja tanpa memuat ulang halaman.
 5. **Pendekatan** menjelaskan cara Hundredapps melihat peluang, membuat, dan mengembangkan produk.
 6. **Kontak** dengan area ajakan kolaborasi. Tautan email ditambahkan setelah alamat resmi dikonfirmasi.
+7. **Pilihan bahasa** ID / EN di header untuk mengganti teks navigasi, narasi, filter, kategori produk, dan label aksesibilitas tanpa memuat ulang halaman. Bahasa awal adalah Indonesia; pilihan terakhir disimpan di browser. Nama produk serta slogan merek tetap seperti aslinya.
 
 ## Daftar produk dan platform
 
@@ -49,7 +50,7 @@ Nama yang berbeda antar store digabung sebagai satu produk apabila terlihat meru
 - Tipografi: Space Grotesk untuk judul dan DM Sans untuk isi, dengan fallback sistem.
 - Gerak: Anime.js untuk kemunculan hero, rotasi orbit, dan respons filter. Bagian cerita memakai panggung sticky, transisi tiga bab, skala dan rotasi visual, serta garis progres yang dikendalikan posisi scroll. Efek kedalaman lain tetap halus. Pada preferensi reduced motion, ketiga bab tampil berurutan tanpa panggung sticky atau transformasi scroll.
 - Desain responsif untuk desktop, tablet, dan ponsel.
-- Bahasa utama halaman: Indonesia.
+- Bahasa awal halaman: Indonesia, dengan pilihan Inggris yang bisa diubah kapan saja.
 - Pratinjau saat tautan dibagikan menggunakan metadata Open Graph dan Twitter dengan simbol Hundredapps tanpa wordmark sebagai gambar.
 
 ## Kriteria penerimaan
@@ -57,6 +58,7 @@ Nama yang berbeda antar store digabung sebagai satu produk apabila terlihat meru
 - Halaman bisa dibuka langsung sebagai situs statis tanpa proses build.
 - Kedua belas produk tampil pada filter Semua; filter Aplikasi dan Game menampilkan kategori yang sesuai.
 - Navigasi jangkar dan menu ponsel berfungsi dengan keyboard dan pointer.
+- Pilihan ID / EN dapat dipakai di desktop dan ponsel, memperbarui atribut bahasa halaman, dan tetap terpilih setelah halaman dimuat ulang.
 - Narasi tiga bab terlihat saat scroll ke bawah maupun ke atas; konten tetap terbaca pada layar kecil dan saat reduced motion aktif.
 - Konten tetap terlihat apabila Anime.js atau font eksternal gagal dimuat.
 - Tidak ada klaim URL store, testimoni, metrik unduhan, atau detail produk yang tidak tersedia dalam referensi.
