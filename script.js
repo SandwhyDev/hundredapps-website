@@ -103,3 +103,119 @@ if ("IntersectionObserver" in window && !reduceMotion.matches) {
     observer.observe(element);
   });
 }
+
+const hero = document.querySelector(".hero");
+const heroScene = document.querySelector(".hero-art-scene");
+const projectVisuals = [...document.querySelectorAll(".project-visual")];
+const contactCard = document.querySelector(".contact-card");
+const scrollStory = document.querySelector(".scroll-story");
+const storyChapters = [...scrollStory.querySelectorAll(".story-chapter")];
+const storyCount = scrollStory.querySelector(".story-count");
+let depthFrame = 0;
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function smoothstep(start, end, value) {
+  const t = clamp((value - start) / (end - start), 0, 1);
+  return t * t * (3 - 2 * t);
+}
+
+function updateScrollStory() {
+  const rect = scrollStory.getBoundingClientRect();
+  const viewportHeight = window.innerHeight;
+  if (rect.bottom <= 0 || rect.top >= viewportHeight) return;
+
+  const progress = clamp(-rect.top / Math.max(1, rect.height - viewportHeight), 0, 1);
+  const weights = [
+    1 - smoothstep(0.22, 0.39, progress),
+    smoothstep(0.25, 0.42, progress) * (1 - smoothstep(0.60, 0.79, progress)),
+    smoothstep(0.64, 0.82, progress),
+  ];
+  const active = progress < 0.34 ? 0 : progress < 0.70 ? 1 : 2;
+
+  storyChapters.forEach((chapter, index) => {
+    chapter.style.setProperty("--chapter-opacity", weights[index].toFixed(3));
+    chapter.style.setProperty("--chapter-y", `${((1 - weights[index]) * 36).toFixed(1)}px`);
+    chapter.style.pointerEvents = index === active ? "auto" : "none";
+    chapter.inert = index !== active;
+  });
+  scrollStory.style.setProperty("--story-progress", progress.toFixed(4));
+  scrollStory.style.setProperty("--seed-scale", (0.8 + progress * 1.3).toFixed(3));
+  scrollStory.style.setProperty("--seed-rotate", `${(progress * 65).toFixed(1)}deg`);
+  scrollStory.style.setProperty("--products-scale", (0.72 + smoothstep(0.23, 0.55, progress) * 0.35).toFixed(3));
+  scrollStory.style.setProperty("--products-rotate", `${(-18 + smoothstep(0.23, 0.62, progress) * 25).toFixed(1)}deg`);
+  scrollStory.style.setProperty("--brand-scale", (0.65 + smoothstep(0.62, 1, progress) * 0.43).toFixed(3));
+  scrollStory.style.setProperty("--brand-rotate", `${(20 - smoothstep(0.62, 1, progress) * 20).toFixed(1)}deg`);
+  storyCount.textContent = `${String(active + 1).padStart(2, "0")} — 03`;
+}
+
+function setScrollStoryMode() {
+  document.body.classList.toggle("has-scroll-story", !reduceMotion.matches);
+  if (reduceMotion.matches) {
+    storyChapters.forEach((chapter) => {
+      chapter.inert = false;
+      chapter.style.removeProperty("pointer-events");
+      chapter.style.removeProperty("--chapter-opacity");
+      chapter.style.removeProperty("--chapter-y");
+    });
+  } else {
+    updateScrollStory();
+  }
+}
+
+function updateScrollDepth() {
+  depthFrame = 0;
+  if (reduceMotion.matches) return;
+
+  const viewportHeight = window.innerHeight;
+  updateScrollStory();
+  const strength = window.innerWidth < 760 ? 0.55 : 1;
+  const heroRect = hero.getBoundingClientRect();
+  if (heroRect.bottom > 0 && heroRect.top < viewportHeight) {
+    const progress = clamp(-heroRect.top / heroRect.height, 0, 1);
+    heroScene.style.setProperty("--scene-x", `${(progress * 12 * strength).toFixed(2)}deg`);
+    heroScene.style.setProperty("--scene-y", `${(-progress * 9 * strength).toFixed(2)}deg`);
+    heroScene.style.setProperty("--scene-shift", `${(progress * 58 * strength).toFixed(1)}px`);
+  }
+
+  projectVisuals.forEach((visual) => {
+    const rect = visual.getBoundingClientRect();
+    if (rect.bottom < -60 || rect.top > viewportHeight + 60) return;
+    const distance = (rect.top + rect.height / 2 - viewportHeight / 2) / (viewportHeight / 2 + rect.height / 2);
+    const position = clamp(distance, -1, 1) * strength;
+    visual.style.setProperty("--card-tilt", `${(-position * 9).toFixed(2)}deg`);
+    visual.style.setProperty("--card-lift", `${(-position * 16).toFixed(1)}px`);
+  });
+
+  const contactRect = contactCard.getBoundingClientRect();
+  if (contactRect.bottom > 0 && contactRect.top < viewportHeight) {
+    const progress = clamp((viewportHeight - contactRect.top) / (viewportHeight + contactRect.height), 0, 1);
+    contactCard.style.setProperty("--orb-shift", `${((0.5 - progress) * 90 * strength).toFixed(1)}px`);
+  }
+}
+
+function requestScrollDepth() {
+  if (!depthFrame && !reduceMotion.matches) depthFrame = requestAnimationFrame(updateScrollDepth);
+}
+
+window.addEventListener("scroll", requestScrollDepth, { passive: true });
+window.addEventListener("resize", requestScrollDepth);
+reduceMotion.addEventListener("change", () => {
+  setScrollStoryMode();
+  if (reduceMotion.matches) {
+    heroScene.style.removeProperty("--scene-x");
+    heroScene.style.removeProperty("--scene-y");
+    heroScene.style.removeProperty("--scene-shift");
+    projectVisuals.forEach((visual) => {
+      visual.style.removeProperty("--card-tilt");
+      visual.style.removeProperty("--card-lift");
+    });
+    contactCard.style.removeProperty("--orb-shift");
+  } else {
+    requestScrollDepth();
+  }
+});
+setScrollStoryMode();
+requestScrollDepth();
