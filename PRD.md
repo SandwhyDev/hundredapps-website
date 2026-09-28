@@ -50,7 +50,7 @@ Nama yang berbeda antar store digabung sebagai satu produk apabila terlihat meru
 - Gerak: Anime.js untuk kemunculan hero, rotasi orbit, dan respons filter. Bagian cerita memakai panggung sticky, transisi tiga bab, skala dan rotasi visual, serta garis progres yang dikendalikan posisi scroll. Efek kedalaman lain tetap halus. Pada preferensi reduced motion, ketiga bab tampil berurutan tanpa panggung sticky atau transformasi scroll.
 - Desain responsif untuk desktop, tablet, dan ponsel.
 - Bahasa utama halaman: Indonesia.
-- Pratinjau saat tautan dibagikan menggunakan metadata Open Graph dan Twitter dengan logo resmi Hundredapps sebagai gambar.
+- Pratinjau saat tautan dibagikan menggunakan metadata Open Graph dan Twitter dengan simbol Hundredapps tanpa wordmark sebagai gambar.
 
 ## Kriteria penerimaan
 
